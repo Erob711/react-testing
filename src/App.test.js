@@ -14,8 +14,8 @@ test('App should render', () => {
 });
 
 test('Button should render', () => {
-  // TODO: change the expect to actually test something 😉
-  expect('no test written').toBe('tested');
+  render(<App />);
+  expect(screen.getByText('Show hidden content')).not.toBeNull();
 });
 
 /**
@@ -23,16 +23,26 @@ test('Button should render', () => {
  * hint: use fireEvent.click(element) to trigger a click event on an element
  */
 test('theme button should update button text', () => {
-  // TODO: change the expect to actually test something 😉
-  expect('no test written').toBe('tested');
+  render(<App />);
+
+  fireEvent.click(screen.getByText('Current theme: light'));
+  expect(screen.getByText('Current theme: dark')).toBeInTheDocument();
+  expect(screen.queryByText('Current theme: light')).not.toBeInTheDocument();
+
+  fireEvent.click(screen.getByText('Current theme: dark'));
+  expect(screen.getByText('Current theme: light')).toBeInTheDocument();
+  expect(screen.queryByText('Current theme: dark')).not.toBeInTheDocument();
+
 });
 
 // BONUS
 // hint: there is a `.toHaveStyle` method.
 // e.g.: expect(element).toHaveStyle('color: #FFF');
 test('theme button should toggle styles', () => {
-  // TODO: change the expect to actually test something 😉
-  expect('no test written').toBe('tested');
+  render(<App />);
+
+  fireEvent.click(screen.getByText('Current theme: light'));
+  expect(document.body).toHaveStyle('color: #FFF');
 });
 
 /**
@@ -45,8 +55,12 @@ test('theme button should toggle styles', () => {
  * (getByText will throw an error if it is not rendered)
  */
 test('hidden button should toggle hidden content', () => {
-  // TODO: change the expect to actually test something 😉
-  expect('no test written').toBe('tested');
+  render(<App />);
+
+  fireEvent.click(screen.getByText('Show hidden content'));
+  expect(screen.getByText('Hide hidden content')).toBeInTheDocument();
+  expect(screen.getByText('this content is hidden by default')).toBeInTheDocument();
+
 });
 
 
